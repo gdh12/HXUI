@@ -176,6 +176,8 @@ local function DrawMember(memIdx, settings)
 		memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
 		memberText[memIdx].distance:SetText(string.format("%.2f", memInfo.distance));
 	end
+	-- Draw the distance information
+    if (memInfo.distance >= 0 and memIdx ~= 0) then
 
     -- Draw the leader icon
     if (memInfo.leader) then
