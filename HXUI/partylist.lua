@@ -342,6 +342,8 @@ local function DrawMember(memIdx, settings)
         memberText[memIdx].distance:SetPositionX(memberText[memIdx].tp:GetPositionX());
         memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
         memberText[memIdx].distance:SetText(string.format("%.1f", memInfo.distance));
+	else
+		memberText[memIdx].distance:SetText("");
     end
 
     if (memInfo.sync) then
