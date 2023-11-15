@@ -336,15 +336,19 @@ local function DrawMember(memIdx, settings)
         end
     end
 
-	-- Draw the distance information
-    if (memInfo.distance >= 0 and memIdx ~= 0) then
-        -- Align it next to the name
-        memberText[memIdx].distance:SetPositionX(memberText[memIdx].tp:GetPositionX());
-        memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
-        memberText[memIdx].distance:SetText(string.format("%.1f", memInfo.distance));
+	if (gConfig.showPartyListDistance) then
+		-- Draw the distance information
+		if (memInfo.distance >= 0 and memIdx ~= 0) then
+			-- Align it next to the name
+			memberText[memIdx].distance:SetPositionX(memberText[memIdx].tp:GetPositionX());
+			memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
+			memberText[memIdx].distance:SetText(string.format("%.1f", memInfo.distance));
+		else
+			memberText[memIdx].distance:SetText("");
+		end
 	else
-		memberText[memIdx].distance:SetText("");
-    end
+		memberText[memIdx].distance:SetVisible(false);
+	end
 
     if (memInfo.sync) then
         draw_circle({hpStartX + settings.dotRadius/2, hpStartY + settings.barHeight}, settings.dotRadius, {.5, .5, 1, 1}, settings.dotRadius * 3, true);
