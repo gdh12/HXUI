@@ -170,14 +170,6 @@ local function DrawMember(memIdx, settings)
         imgui.ProgressBar(0, { allBarsLengths, settings.barHeight + hpSize.cy + settings.hpTextOffsetY}, AshitaCore:GetResourceManager():GetString("zones.names", memInfo.zone));
     end
 
-	-- Draw the distance information
-    if (memInfo.distance >= 0 and memIdx ~= 0) then
-        -- Align it next to the name
-        memberText[memIdx].distance:SetPositionX(namePosX + nameSize.cx + settings.distanceTextOffsetX);
-        memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
-        memberText[memIdx].distance:SetText(string.format("%.2f", memInfo.distance));
-    end
-
     -- Draw the leader icon
     if (memInfo.leader) then
         draw_circle({hpStartX + settings.dotRadius/2, hpStartY + settings.dotRadius/2}, settings.dotRadius, {1, 1, .5, 1}, settings.dotRadius * 3, true);
@@ -342,6 +334,14 @@ local function DrawMember(memIdx, settings)
                 imgui.End();
             end
         end
+    end
+
+	-- Draw the distance information
+    if (memInfo.distance >= 0 and memIdx ~= 0) then
+        -- Align it next to the name
+        memberText[memIdx].distance:SetPositionX(memberText[memIdx].tp:GetPositionX());
+        memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
+        memberText[memIdx].distance:SetText(string.format("%.2f", memInfo.distance));
     end
 
     if (memInfo.sync) then
