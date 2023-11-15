@@ -208,7 +208,7 @@ config.DrawWindow = function(us)
                 UpdateSettings();
             end
             if (imgui.Checkbox('Show distance', { gConfig.showPartyListDistance })) then
-                gConfig.showPartyList = not gConfig.showPartyListDistance;
+                gConfig.showPartyListDistance = not gConfig.showPartyListDistance;
                 UpdateSettings();
             end
             local scaleX = { gConfig.partyListScaleX };
