@@ -21,12 +21,28 @@ local borderConfig = {1, '#243e58'};
 
 local partyList = {};
 
+local function calculatePartyMemberDistance(memberIDX)
+	--- Thank you party buffs
+	--- https://github.com/ThornyFFXI/MiscAshita4/blob/main/addons/partybuffs/memberdisplay.lua#L126-L139
+	local entityDistance = -1;
+	local partyMgr = AshitaCore:GetMemoryManager():GetParty();
+	local entityIndex = partyMgr:GetMemberTargetIndex(memberIDX);
+	local entMgr = AshitaCore:GetMemoryManager():GetEntity();
+	local renderFlags = entMgr:GetRenderFlags0(entityIndex);
+	-- What is this? Render information? I guess it tells if someone is loaded in game
+	if (bit.band(renderFlags, 0x200) == 0x200) and (bit.band(renderFlags, 0x4000) == 0) then        
+		entityDistance = math.sqrt(entMgr:GetDistance(entityIndex));
+	end
+	return entityDistance
+end
+	
 local function UpdateTextVisibilityByMember(memIdx, visible)
 
     memberText[memIdx].hp:SetVisible(visible);
     memberText[memIdx].mp:SetVisible(visible);
     memberText[memIdx].tp:SetVisible(visible);
     memberText[memIdx].name:SetVisible(visible);
+	memberText[memIdx].distance:SetVisible(visible);
 end
 
 local function UpdateTextVisibility(visible)
@@ -82,6 +98,7 @@ local function GetMemberInformation(memIdx)
             memberInfo.buffs = statusHandler.get_member_status(memberInfo.serverid);
         end
         memberInfo.sync = bit.band(party:GetMemberFlagMask(memIdx), 0x100) == 0x100;
+		memberInfo.distance = calculatePartyMemberDistance(memIdx);
 
     else
         memberInfo.hp = 0;
@@ -98,8 +115,8 @@ local function GetMemberInformation(memIdx)
         memberInfo.buffs = nil;
         memberInfo.sync = false;
         memberInfo.subTargeted = false;
+		memberInfo.distance = 0;
     end
-
     return memberInfo;
 end
 
@@ -152,6 +169,13 @@ local function DrawMember(memIdx, settings)
     else
         imgui.ProgressBar(0, { allBarsLengths, settings.barHeight + hpSize.cy + settings.hpTextOffsetY}, AshitaCore:GetResourceManager():GetString("zones.names", memInfo.zone));
     end
+
+	if (memInfo.distance >= 0) then
+		-- Align it next to the name
+	    memberText[memIdx].distance:SetPositionX(namePosX + nameSize.cx + settings.distanceTextOffsetX);
+		memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
+		memberText[memIdx].distance:SetText(string.format("%.2f", memInfo.distance));
+	end
 
     -- Draw the leader icon
     if (memInfo.leader) then
@@ -395,6 +419,7 @@ partyList.Initialize = function(settings)
     -- Initialize all our font objects we need
     for i = 0, 5 do
         memberText[i] = {};
+		memberText[i].distance = fonts.new(settings.distance_font_settings);
         memberText[i].name = fonts.new(settings.name_font_settings);
         memberText[i].hp = fonts.new(settings.hp_font_settings);
         memberText[i].mp = fonts.new(settings.mp_font_settings);
@@ -424,6 +449,7 @@ end
 partyList.UpdateFonts = function(settings)
     -- Initialize all our font objects we need
     for i = 0, 5 do
+		memberText[i].distance:SetFontHeight(settings.distance_font_settings.font_height);
         memberText[i].name:SetFontHeight(settings.name_font_settings.font_height);
         memberText[i].hp:SetFontHeight(settings.hp_font_settings.font_height);
         memberText[i].mp:SetFontHeight(settings.mp_font_settings.font_height);

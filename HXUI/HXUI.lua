@@ -439,7 +439,9 @@ T{
 		mpBarWidth = 100,
 		barHeight = 20,
 		barSpacing = 8,
-
+		
+		distanceTextOffsetX = 60,
+		distanceTextOffsetY = 0,
 		nameTextOffsetX = 1,
 		nameTextOffsetY = 0,
 		hpTextOffsetX = -2,
@@ -470,6 +472,22 @@ T{
 		xivBuffOffsetY = 1,
 		entrySpacing = 8,
 
+		distance_font_settings = 
+		T{
+			visible = true,
+			locked = true,
+			font_family = 'Consolas',
+			font_height = 11,
+			color = 0xFFFFFFFF,
+			bold = true,
+			color_outline = 0xFF000000,
+			draw_flags = 0x10,
+			background = 
+			T{
+				visible = false,
+			},
+			right_justified = true;
+		};
 		hp_font_settings = 
 		T{
 			visible = true,
@@ -487,6 +505,7 @@ T{
 			},
 			right_justified = true;
 		};
+
 		mp_font_settings = 
 		T{
 			visible = true,
@@ -688,6 +707,7 @@ local function UpdateUserSettings()
     gAdjustedSettings.partyListSettings.name_font_settings.font_height = math.max(ns.partyListSettings.name_font_settings.font_height + us.partyListFontOffset, 1);
 	gAdjustedSettings.partyListSettings.iconSize = ns.partyListSettings.iconSize * us.partyListBuffScale;
 	gAdjustedSettings.partyListSettings.entrySpacing = ns.partyListSettings.entrySpacing + us.partyListEntrySpacing;
+	gAdjustedSettings.partyListSettings.distance_font_settings.font_height = math.max(ns.partyListSettings.distance_font_settings.font_height + us.partyListFontOffset, 1);
 
 	-- Player Bar
 	gAdjustedSettings.playerBarSettings.barWidth = ns.playerBarSettings.barWidth * us.playerBarScaleX;
