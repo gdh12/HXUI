@@ -98,7 +98,14 @@ local function GetMemberInformation(memIdx)
             memberInfo.buffs = statusHandler.get_member_status(memberInfo.serverid);
         end
         memberInfo.sync = bit.band(party:GetMemberFlagMask(memIdx), 0x100) == 0x100;
-        memberInfo.distance = calculatePartyMemberDistance(memIdx);
+        
+        -- Do not calculate if user does not want it. 
+        -- No clue if this is CPU intensive
+        if (gConfig.showPartyListDistance) then
+            memberInfo.distance = calculatePartyMemberDistance(memIdx);
+        else
+            memberInfo.distance = 0;
+        end
 
     else
         memberInfo.hp = 0;
