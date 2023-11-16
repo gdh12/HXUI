@@ -24,7 +24,7 @@ local partyList = {};
 local function calculatePartyMemberDistance(memberIDX)
     --- Thank you party buffs
     --- https://github.com/ThornyFFXI/MiscAshita4/blob/main/addons/partybuffs/memberdisplay.lua#L126-L139
-    local entityDistance = -1;
+    local entityDistance = 0;
     local partyMgr = AshitaCore:GetMemoryManager():GetParty();
     local entityIndex = partyMgr:GetMemberTargetIndex(memberIDX);
     local entMgr = AshitaCore:GetMemoryManager():GetEntity();
