@@ -345,7 +345,7 @@ local function DrawMember(memIdx, settings)
 
 	if (gConfig.showPartyListDistance) then
 		-- Draw the distance information
-		if (memInfo.distance >= 0 and memIdx ~= 0) then
+		if (memInfo.distance >= 0 and memIdx ~= 0 and memInfo.inzone) then
 			-- Align it next to the name
 			memberText[memIdx].distance:SetPositionX(memberText[memIdx].tp:GetPositionX());
 			memberText[memIdx].distance:SetPositionY(hpStartY - nameSize.cy - settings.nameTextOffsetY);
