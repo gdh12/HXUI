@@ -439,9 +439,6 @@ T{
 		mpBarWidth = 100,
 		barHeight = 20,
 		barSpacing = 8,
-		
-		distanceTextOffsetX = 60,
-		distanceTextOffsetY = 0,
 		nameTextOffsetX = 1,
 		nameTextOffsetY = 0,
 		hpTextOffsetX = -2,
